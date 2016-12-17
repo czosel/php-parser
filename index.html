@@ -16,7 +16,8 @@
 	<!--stylesheets-->
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" >
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css?v=3">
+	<link rel="stylesheet" type="text/css" href="/css/style.css?v=4">
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor.min.css">
 	<!--[if lt IE 9]>
 		<link rel="stylesheet" type="text/css" href="css/ie.css" />
 	<![endif]-->
@@ -103,7 +104,7 @@
 				<div class="text">
 					<p>
 						Install the package from npm :
-						<code data-gist-id="6f26ca36ca0896ad2b7bc182dd8c6c760"></code>
+						<code data-gist-id="6f26ca36ca0896ad2b7bc182dd8c6c76"></code>
 					</p>
 					<p>
 						And next use it on your own project :
@@ -127,7 +128,17 @@
 							Write your PHP code
 						</div>
 						<p>
-              @todo
+              <div id="editor">&lt;?php
+/**
+ * Some namespace &amp; file description
+ */
+namespace foo {
+  function bar($a, $b) {
+    return $a + $b;
+  }
+  // will print : 5
+  echo bar(2, 3);
+}</div>
             </p>
 					</div>
 					<div class="span6 supportright">
@@ -135,8 +146,9 @@
 							Resulting AST
 						</div>
 						<p>
-              @todo
-            </p>
+							<div id="jsoneditor" style="width: 100%; height: 400px;"></div>
+							<div id="error-msg" class="alert alert-danger hidden"></div>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -154,5 +166,35 @@
 	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/js/main.js?v=1"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/glayzzle/php-parser/master/dist/php-parser.min.js"></script>
+	<script type="text/javascript" src="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor-minimalist.min.js"></script>
+	<script>
+		var parser = require('php-parser');
+		var editor = ace.edit("editor");
+		var container = document.getElementById("jsoneditor");
+		var options = {
+			mode: 'view'
+		};
+		var json = new JSONEditor(container, options);
+		editor.setTheme("ace/theme/monokai");
+		editor.getSession().setMode("ace/mode/php");
+		function refreshAst() {
+			try {
+				var ast = parser.parseCode(
+					editor.getValue()
+				);
+				$('#error-msg').hide();
+				$(container).show();
+				json.set(ast);
+			} catch(e) {
+				$('#error-msg').show();
+				$(container).hide();
+				$('#error-msg').text(e.message);
+			}
+		}
+		editor.on("change", refreshAst);
+		refreshAst();
+	</script>
 </body>
 </html>
