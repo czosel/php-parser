@@ -10,7 +10,7 @@
 	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	<title>Glayzzle - The union between PHP and NodeJS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Run PHP with nodejs">
+	<meta name="description" content="Parse PHP and extract AST with javascript">
 	<meta name="author" content="Ioan CHIRIAC">
 
 	<!--stylesheets-->
@@ -79,7 +79,7 @@ table.jsoneditor-search input {
 						<div class="nav-collapse">
 							<ul class="nav">
                 <li class="current"><a href="#demo">Demo</a></li>
-                <li><a href="https://github.com/glayzzle/php-parser/wiki">Documentation</a></li>
+                <li><a href="https://github.com/glayzzle/php-parser/tree/master/docs">Documentation</a></li>
                 <li><a href="https://github.com/glayzzle/php-parser/issues">Issues</a></li>
 								<li><a href="/index.html#support">Contact</a></li>
 								<li>
@@ -107,9 +107,7 @@ table.jsoneditor-search input {
             <a href="https://gitter.im/glayzzle/Lobby"><img src="https://camo.githubusercontent.com/9e4e89c5b3434b12e74867c52ce897fc1380abcc/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4749545445522d6a6f696e253230636861742d677265656e2e737667" alt="Gitter" data-canonical-src="https://img.shields.io/badge/GITTER-join%20chat-green.svg"></a>
           </p>
           <p>
-            Parse PHP code from NodeJS and convert it to AST.
-            This library is a standalone module of a larger
-            project named <a href="http://glayzzle.com/">Glayzzle</a>.
+            Parse PHP code with javascript and convert it to AST.
           </p>
 				</div>
 			</div>
@@ -167,13 +165,13 @@ namespace foo {
 						</div>
 						<p id="options">
 							<label>
-								<input type="checkbox" data-opt="locations"> Include positions
+								<input type="checkbox" data-key="ast" data-opt="withPositions"> Include positions
 							</label>
 							<label>
-								<input type="checkbox" data-opt="extractDoc"> Extract comments
+								<input type="checkbox" data-key="parser" data-opt="extractDoc"> Extract comments
 							</label>
 							<label>
-								<input type="checkbox" data-opt="suppressErrors"> Graceful errors
+								<input type="checkbox" data-key="parser" data-opt="suppressErrors"> Graceful errors
 							</label>
 						</p>
 						<div id="jsoneditor" style="width: 100%; height: 400px;"></div>
@@ -196,7 +194,7 @@ namespace foo {
 	<script type="text/javascript" src="/js/main.js?v=1"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.4/gist-embed.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
-	<script type="text/javascript" src="https://rawgit.com/glayzzle/php-parser/master/dist/php-parser.min.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/glayzzle/php-parser/develop/dist/php-parser.min.js"></script>
 	<script type="text/javascript" src="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor-minimalist.min.js"></script>
 	<script>
 		var parser = require('php-parser');
@@ -225,7 +223,7 @@ namespace foo {
 		editor.on("change", refreshAst);
 		refreshAst();
 		$('[data-opt]').on('click', function() {
-			options.parser[$(this).attr('data-opt')] = $(this).is(':checked');
+			options.[$(this).attr('data-key')][$(this).attr('data-opt')] = $(this).is(':checked');
 			refreshAst();
 		});
 	</script>
