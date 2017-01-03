@@ -200,7 +200,11 @@ namespace foo {
 		var parser = require('php-parser');
 		var editor = ace.edit("editor");
 		var container = document.getElementById("jsoneditor");
-		var options = {parser: {}};
+		var options = {
+			ast: {},
+			parser: {},
+			lexer: {}
+		};
 		var json = new JSONEditor(container, {
 			mode: 'view'
 		});
