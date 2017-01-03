@@ -223,7 +223,7 @@ namespace foo {
 		editor.on("change", refreshAst);
 		refreshAst();
 		$('[data-opt]').on('click', function() {
-			options.[$(this).attr('data-key')][$(this).attr('data-opt')] = $(this).is(':checked');
+			options[$(this).attr('data-key')][$(this).attr('data-opt')] = $(this).is(':checked');
 			refreshAst();
 		});
 	</script>
