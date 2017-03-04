@@ -178,6 +178,10 @@ namespace foo {
 						<div id="error-msg" class="alert alert-danger" style="display: none"></div>
 					</div>
 				</div>
+        <form action="#" method="get">
+          <input id="generate" type="button" value="Generate markdown">
+          <textarea id="markdown"></textara>
+        </div>
 			</div>
 		</div>
 	</div>
@@ -224,6 +228,25 @@ namespace foo {
 				$('#error-msg').text(e.message);
 			}
 		}
+    $('#generate').on('click', function() {
+      var $out = $('markdown');
+      var text = 'PHP Script :\n';
+      text += '```php\n';
+      text += editor.getValue();
+      text += '\n```\n';
+      try {
+				var ast = parser.parseCode(editor.getValue());
+        text += '\nAST Structure :\n';
+        text += '```json\n';
+        text += JSON.stringify(ast, null, 2);
+        text += '\n```\n';
+			} catch(e) {
+        text += '\nPHP Error :\n';
+        text += '```\n';
+        text += e.stack;
+        text += '\n```\n';
+			}
+    });
 		editor.on("change", refreshAst);
 		refreshAst();
 		$('[data-opt]').on('click', function() {
