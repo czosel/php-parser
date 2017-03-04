@@ -235,17 +235,18 @@ namespace foo {
       text += editor.getValue();
       text += '\n```\n';
       try {
-				var ast = parser.parseCode(editor.getValue());
+        var ast = parser.parseCode(editor.getValue());
         text += '\nAST Structure :\n';
         text += '```json\n';
         text += JSON.stringify(ast, null, 2);
         text += '\n```\n';
-			} catch(e) {
+      } catch(e) {
         text += '\nPHP Error :\n';
         text += '```\n';
         text += e.stack;
         text += '\n```\n';
-			}
+      }
+      $out.val(text).focus();
     });
 		editor.on("change", refreshAst);
 		refreshAst();
