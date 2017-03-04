@@ -179,7 +179,7 @@ namespace foo {
 					</div>
 				</div>
         <form action="#" method="get">
-          <input id="generate" type="button" value="Generate markdown">
+          <input id="submit" type="button" value="Generate markdown">
           <textarea id="markdown"></textarea>
         </div>
 			</div>
@@ -228,8 +228,8 @@ namespace foo {
 				$('#error-msg').text(e.message);
 			}
 		}
-    $('#generate').on('click', function() {
-      var $out = $('markdown');
+    $('#submit').on('click', function() {
+      var $out = $('#markdown');
       var text = 'PHP Script :\n';
       text += '```php\n';
       text += editor.getValue();
